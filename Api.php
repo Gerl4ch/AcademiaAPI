@@ -38,15 +38,35 @@
 
                         case 'createAluno':
 
-                                isTheseParametersAvailable(array('nome', ));
+                                isTheseParametersAvailable(array('nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'cep', 'estado', 'cidade', 'rua', 'bairro', 'num','codPer'));
 
-                                $db = new DbOperation();
+                                $db = new dbOperation();
 
-                                $result = $db->createHero(
-                                        $_POST['name'],
-                                        $_POST['realname'],
-                                        $_POST['rating'],
-                                        $_POST['teamaffiliation']
+                                $result = $db->createAluno(
+                                        $_POST['nome'],
+                                        $_POST['senha'],
+                                        $_POST['sexo'],
+                                        $_POST['dataNasc']
+
+$_POST['cell']
+
+$_POST['email']
+
+$_POST['ftAluno']
+
+$_POST['cep']
+
+$_POST['estado']
+
+$_POST['cidade']
+
+$_POST['rua']
+
+$_POST['bairro']
+
+$_POST['num']
+
+$_POST['codPer']
                                 );
 
 
@@ -56,10 +76,10 @@
                                         $response['error'] = false; 
 
 
-                                        $response['message'] = 'Herói adicionado com sucesso';
+                                        $response['message'] = 'Cadastro feito com sucesso';
 
 
-                                        $response['heroes'] = $db->getHeroes();
+                                        $response['alunos'] = $db->getAluno();
                                 }else{
 
 
