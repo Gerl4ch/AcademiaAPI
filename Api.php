@@ -46,25 +46,25 @@
                                         $_POST['nome'],
                                         $_POST['senha'],
                                         $_POST['sexo'],
-                                        $_POST['dataNasc']
+                                        $_POST['dataNasc'],
 
-$_POST['cell']
+$_POST['cell'],
 
-$_POST['email']
+$_POST['email'],
 
-$_POST['ftAluno']
+$_POST['ftAluno'],
 
-$_POST['cep']
+$_POST['cep'],
 
-$_POST['estado']
+$_POST['estado'],
 
-$_POST['cidade']
+$_POST['cidade'],
 
-$_POST['rua']
+$_POST['rua'],
 
-$_POST['bairro']
+$_POST['bairro'],
 
-$_POST['num']
+$_POST['num'],
 
 $_POST['codPer']
                                 );
@@ -92,30 +92,51 @@ $_POST['codPer']
                         break; 
 
 
-                        case 'getheroes':
-                                $db = new DbOperation();
+                        case 'getAluno':
+                                $db = new dbOperation();
                                 $response['error'] = false; 
                                 $response['message'] = 'Pedido concluído com sucesso';
-                                $response['heroes'] = $db->getHeroes();
+                                $response['alunos'] = $db->getAluno();
                         break; 
 
 
 
-                        case 'updatehero':
-                                isTheseParametersAvailable(array('id','name','realname','rating','teamaffiliation'));
-                                $db = new DbOperation();
-                                $result = $db->updateHero(
-                                        $_POST['id'],
-                                        $_POST['name'],
-                                        $_POST['realname'],
-                                        $_POST['rating'],
-                                        $_POST['teamaffiliation']
+                        case 'updateAluno':
+                                isTheseParametersAvailable(array('codAlun','nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'cep', 'estado', 'cidade', 'rua', 'bairro', 'num','codPer'));
+                                $db = new dbOperation();
+                                $result = $db->updateAluno(
+
+$_POST['codAlun'],
+                                                                               $_POST['nome'],
+                                        $_POST['senha'],
+                                        $_POST['sexo'],
+                                        $_POST['dataNasc'],
+
+$_POST['cell'],
+
+$_POST['email'],
+
+$_POST['ftAluno'],
+
+$_POST['cep'],
+
+$_POST['estado'],
+
+$_POST['cidade']
+
+$_POST['rua'],
+
+$_POST['bairro'],
+
+$_POST['num'],
+
+$_POST['codPer']
                                 );
 
                                 if($result){
                                         $response['error'] = false; 
-                                        $response['message'] = 'Herói atualizado com sucesso';
-                                        $response['heroes'] = $db->getHeroes();
+                                        $response['message'] = 'Cadastro atualizado com sucesso';
+                                        $response['alunos'] = $db->getAlunos();
                                 }else{
                                         $response['error'] = true; 
                                         $response['message'] = 'Algum erro ocorreu por favor tente novamente';
@@ -123,15 +144,15 @@ $_POST['codPer']
                         break; 
 
 
-                        case 'deletehero':
+                        case 'deleteAluno':
 
 
-                                if(isset($_GET['id'])){
-                                        $db = new DbOperation();
-                                        if($db->deleteHero($_GET['id'])){
+                                if(isset($_GET['codLista'])){
+                                        $db = new dbOperation();
+                                        if($db->deleteLista($_GET['codLista'])){
                                                 $response['error'] = false; 
-                                                $response['message'] = 'Herói excluído com sucesso';
-                                                $response['heroes'] = $db->getHeroes();
+                                                $response['message'] = 'Lista excluída com sucesso';
+                                                $response['Lista'] = $db->getLista();
                                         }else{
                                                 $response['error'] = true; 
                                                 $response['message'] = 'Algum erro ocorreu por favor tente novamente';
