@@ -1,6 +1,6 @@
 <?php 
 
-        require_once '../includes/DbOperation.php';
+        require_once '../includes/dbOperation.php';
 
         function isTheseParametersAvailable($params){
 
@@ -36,9 +36,9 @@
 
                 switch($_GET['apicall']){
 
-                        case 'createhero':
+                        case 'createAluno':
 
-                                isTheseParametersAvailable(array('name','realname','rating','teamaffiliation'));
+                                isTheseParametersAvailable(array('nome', ));
 
                                 $db = new DbOperation();
 
