@@ -29,7 +29,7 @@ class DbOperation
 		return false;
 	}
 
-	function createAluno($nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $bairro, $rua, $bairro, $num, $codPer){
+	function createAluno($nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer){
 		$stmt = $this->con->prepare("INSERT INTO tbAlunos (nome, senha, sexo, dataNasc, cell, email, ftAlun, cep, estado, cidade, bairro, rua, bairro, num, codPer) VALUES (?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$stmt->bind_param("ssssssssssssssi", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $bairro, $rua, $bairro, $num, $codPer);
 		if($stmt->execute())
@@ -53,9 +53,9 @@ class DbOperation
 		return false;
 	}
 
-	function createExercicio($nomeExe, $descricao, $video, $codCat){
-		$stmt = $this->con->prepare("INSERT INTO tbExercicios (nomeExe, descricao, video, codCat) VALUES (?, ?, ?, ?)");
-		$stmt->bind_param("sssi", $nomeExe, $descricao, $video, $codCat);
+	function createExercicio($nomeExe, $descricao, $video, $ftExe, $codCat){
+		$stmt = $this->con->prepare("INSERT INTO tbExercicios (nomeExe, descricao, video, ftExe, codCat) VALUES (?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssi", $nomeExe, $descricao, $video, $ftExe, $codCat);
 		if($stmt->execute())
 			return true; 			
 		return false;
@@ -64,118 +64,155 @@ class DbOperation
 
 	// Busca e Lista 
 
-	function getAluno(){
-		$stmt = $this->con->prepare("SELECT codAlun, nome, senha, sexo, dataNasc, cell, email, ftAlun, cep, estado, cidade, bairro, rua, bairro, num, codPer FROM tbAlunos");
+	function getPersonal(){
+		$stmt = $this->con->prepare("SELECT codPer, nome, cpf, sexo, ftPer, senha, cell, cref, email, dataNasc FROM tbPersonal");
 		$stmt->execute();
-		$stmt->bind_result($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $bairro, $rua, $bairro, $num, $codPer);
+		$stmt->bind_result($codPer, $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc);
+		
+		$pers = array(); 
+		
+		while($stmt->fetch()){
+			$per = array();
+			$per['codPer'] = $codPer; 
+			$per['nome'] = $nome; 
+			$per['cpf'] = $cpf; 
+			$per['sexo'] = $sexo; 
+			$per['ftPer'] = $ftPer; 
+			$per['senha'] = $senha; 
+			$per['cell'] = $cell; 
+			$per['cref'] = $cref; 
+			$per['email'] = $email; 
+			$per['dataNasc'] = $dataNasc;
+			
+			array_push($pers, $per); 
+		}
+
+	function getAluno(){
+		$stmt = $this->con->prepare("SELECT codAlun, nome, senha, sexo, dataNasc, cell, email, ftAlun, cep, estado, cidade, rua, bairro, num, codPer FROM tbAlunos");
+		$stmt->execute();
+		$stmt->bind_result($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer);
 		
 		$alunos = array(); 
 		
 		while($stmt->fetch()){
-			$hero  = array();
-			$hero['id'] = $id; 
-			$hero['name'] = $name; 
-			$hero['realname'] = $realname; 
-			$hero['rating'] = $rating; 
-			$hero['teamaffiliation'] = $teamaffiliation; 
+			$aluno = array();
+			$aluno['codAlun'] = $codAlun; 
+			$aluno['nome'] = $nome; 
+			$aluno['senha'] = $senha; 
+			$aluno['dataNasc'] = $dataNasc; 
+			$aluno['cell'] = $cell; 
+			$aluno['email'] = $email; 
+			$aluno['ftAlun'] = $ftAlun; 
+			$aluno['cep'] = $cep; 
+			$aluno['estado'] = $estado; 
+			$aluno['cidade'] = $cidade; 
+			$aluno['rua'] = $rua; 
+			$aluno['bairro'] = $bairro;
+			$aluno['num'] = $num; 
+			$aluno['codPer'] = $codPer; 
 			
-			array_push($heroes, $hero); 
+			array_push($alunos, $aluno); 
 		}
 
 		function getLista(){
-		$stmt = $this->con->prepare("SELECT id, name, realname, rating, teamaffiliation FROM heroes");
+		$stmt = $this->con->prepare("SELECT codLista, codPer, nomeLista, observacao, objetivo FROM tbListaTreino");
 		$stmt->execute();
-		$stmt->bind_result($id, $name, $realname, $rating, $teamaffiliation);
+		$stmt->bind_result($codLista, $codPer, $nomeLista, $observacao, $objetivo);
 		
-		$heroes = array(); 
+		$listas = array(); 
 		
 		while($stmt->fetch()){
-			$hero  = array();
-			$hero['id'] = $id; 
-			$hero['name'] = $name; 
-			$hero['realname'] = $realname; 
-			$hero['rating'] = $rating; 
-			$hero['teamaffiliation'] = $teamaffiliation; 
+			$lista = array();
+			$lista['codLista'] = $codLista; 
+			$lista['codPer'] = $codPer; 
+			$lista['nomeLista'] = $nomeLista; 
+			$lista['observacao'] = $observacao; 
+			$lista['objetivo'] = $objetivo;
 			
-			array_push($heroes, $hero); 
+			array_push($listas, $lista); 
 		}
 
 		function getTreino(){
-		$stmt = $this->con->prepare("SELECT id, name, realname, rating, teamaffiliation FROM heroes");
+		$stmt = $this->con->prepare("SELECT codTreino, codLista, nomeTreino, diaTreino FROM tbTreinos");
 		$stmt->execute();
-		$stmt->bind_result($id, $name, $realname, $rating, $teamaffiliation);
+		$stmt->bind_result($codTreino, $codLista, $nomeTreino, $diaTreino);
 		
-		$heroes = array(); 
+		$treinos = array(); 
 		
 		while($stmt->fetch()){
-			$hero  = array();
-			$hero['id'] = $id; 
-			$hero['name'] = $name; 
-			$hero['realname'] = $realname; 
-			$hero['rating'] = $rating; 
-			$hero['teamaffiliation'] = $teamaffiliation; 
+			$treino = array();
+			$treino['codTreino'] = $codTreino; 
+			$treino['codLista'] = $codLista; 
+			$treino['nomeTreino'] = $nomeTreino; 
+			$treino['diaTreino'] = $diaTreino; 
 			
-			array_push($heroes, $hero); 
+			array_push($treinos, $treino); 
 		}
 
 		function getExercicio(){
-		$stmt = $this->con->prepare("SELECT id, name, realname, rating, teamaffiliation FROM heroes");
+		$stmt = $this->con->prepare("SELECT codExe, nomeExe, descricao, video, ftExe, codCat FROM tbExercicios");
 		$stmt->execute();
-		$stmt->bind_result($id, $name, $realname, $rating, $teamaffiliation);
+		$stmt->bind_result($codExe, $nomeExe, $descricao, $video, $ftExe, $codCat);
 		
-		$heroes = array(); 
+		$exes = array(); 
 		
 		while($stmt->fetch()){
-			$hero  = array();
-			$hero['id'] = $id; 
-			$hero['name'] = $name; 
-			$hero['realname'] = $realname; 
-			$hero['rating'] = $rating; 
-			$hero['teamaffiliation'] = $teamaffiliation; 
+			$exe  = array();
+			$exe['codExe'] = $codExe; 
+			$exe['nomeExe'] = $nomeExe; 
+			$exe['descricao'] = $descricao; 
+			$exe['video'] = $video; 
+			$exe['ftExe'] = $ftExe;
+			$exe['codCat'] = $codCat; 
 			
-			array_push($heroes, $hero); 
+			array_push($exes, $exe); 
 		}
-		
-		return $heroes; 
+
+		return $pers;
+		return $alunos;
+		return $listas;
+		return $treinos;
+		return $exes; 
 	}
 	
 	// Dados que vão ser atualizados no aplicativo 
 
-	function updatePersonal($id, $name, $realname, $rating, $teamaffiliation){
-		$stmt = $this->con->prepare("UPDATE heroes SET name = ?, realname = ?, rating = ?, teamaffiliation = ? WHERE id = ?");
-		$stmt->bind_param("ssisi", $name, $realname, $rating, $teamaffiliation, $id);
+	function updatePersonal($codPer, $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc){
+		$stmt = $this->con->prepare("UPDATE tbPersonal SET nome = ?, cpf = ?, sexo = ?, ftPer = ?, senha = ?, cell = ?, cref = ?, email = ?, dataNasc = ? WHERE codPer = ?");
+		$stmt->bind_param("sssssssssi", $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc, $codPer);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function updateAluno($id, $name, $realname, $rating, $teamaffiliation){
-		$stmt = $this->con->prepare("UPDATE heroes SET name = ?, realname = ?, rating = ?, teamaffiliation = ? WHERE id = ?");
-		$stmt->bind_param("ssisi", $name, $realname, $rating, $teamaffiliation, $id);
+	function updateAluno($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer){
+		$stmt = $this->con->prepare("UPDATE tbAlunos SET nome = ?, senha = ?, sexo = ?, dataNasc = ?, cell = ?, email = ?, ftAlun = ?, cep = ?, estado = ?, cidade = ?, bairro = ?,
+		 rua = ?, bairro = ?, num = ?, codPer = ? WHERE codAlun = ?");
+		$stmt->bind_param("ssssssssssssssii", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer, $codAlun);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function updateLista($id, $name, $realname, $rating, $teamaffiliation){
-		$stmt = $this->con->prepare("UPDATE heroes SET name = ?, realname = ?, rating = ?, teamaffiliation = ? WHERE id = ?");
-		$stmt->bind_param("ssisi", $name, $realname, $rating, $teamaffiliation, $id);
+	function updateLista($codLista, $codPer, $nomeLista, $observacao, $objetivo){
+		$stmt = $this->con->prepare("UPDATE tbListaTreino SET codPer = ?, nomeLista = ?, observacao = ?, objetivo = ? WHERE codLista = ?");
+		$stmt->bind_param("isssi", $codPer, $nomeLista, $observacao, $objetivo, $codLista);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function updateTreino($id, $name, $realname, $rating, $teamaffiliation){
-		$stmt = $this->con->prepare("UPDATE heroes SET name = ?, realname = ?, rating = ?, teamaffiliation = ? WHERE id = ?");
-		$stmt->bind_param("ssisi", $name, $realname, $rating, $teamaffiliation, $id);
+	function updateTreino($codTreino, $codLista, $nomeTreino, $diaTreino){
+		$stmt = $this->con->prepare("UPDATE tbTreino SET codLista = ?, nomeTreino = ?, diaTreino = ? WHERE coTreino = ?");
+		$stmt->bind_param("issi", $codLista, $nomeTreino, $diaTreino, $codTreino);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function updateExercicio($id, $name, $realname, $rating, $teamaffiliation){
-		$stmt = $this->con->prepare("UPDATE heroes SET name = ?, realname = ?, rating = ?, teamaffiliation = ? WHERE id = ?");
-		$stmt->bind_param("ssisi", $name, $realname, $rating, $teamaffiliation, $id);
+	function updateExercicio($codExe, $nomeExe, $descricao, $video, $ftExe, $codCat){
+		$stmt = $this->con->prepare("UPDATE tbExercicios SET nomeExe = ?, descricao = ?, video = ?, ftExe = ?, codCat = ? WHERE codExe = ?");
+		$stmt->bind_param("ssssii", $nomeExe, $descricao, $video, $ftExe, $codCat, $codExe);
 		if($stmt->execute())
 			return true; 
 		return false; 
@@ -183,25 +220,25 @@ class DbOperation
 	
 	// Dados que poderão ser deletados
 
-	function deleteLista($id){
-		$stmt = $this->con->prepare("DELETE FROM heroes WHERE id = ? ");
-		$stmt->bind_param("i", $id);
+	function deleteLista($codLista){
+		$stmt = $this->con->prepare("DELETE FROM tbListaTreinos WHERE codLista = ? ");
+		$stmt->bind_param("i", $codLista);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function deleteTreino($id){
-		$stmt = $this->con->prepare("DELETE FROM heroes WHERE id = ? ");
-		$stmt->bind_param("i", $id);
+	function deleteTreino($codTreino){
+		$stmt = $this->con->prepare("DELETE FROM tbTreino WHERE codTreino = ? ");
+		$stmt->bind_param("i", $codTreino);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function deleteExercicio($id){
-		$stmt = $this->con->prepare("DELETE FROM heroes WHERE id = ? ");
-		$stmt->bind_param("i", $id);
+	function deleteExercicio($codExe){
+		$stmt = $this->con->prepare("DELETE FROM tbExercicio WHERE codExe = ? ");
+		$stmt->bind_param("i", $codExe);
 		if($stmt->execute())
 			return true; 
 		return false; 
