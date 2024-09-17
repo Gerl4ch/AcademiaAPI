@@ -1,5 +1,3 @@
-drop database bdAppPersonal;
-
 create database bdAppPersonal;
 
 use bdAppPersonal;
