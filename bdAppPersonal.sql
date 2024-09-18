@@ -52,7 +52,7 @@ create table tbCategoria(
 codCat int not null auto_increment,
 nome varchar(50) not null,
 descricao varchar(50),
-foto blob,
+foto varchar(100),
 primary key(codCat));
 
 create table tbExercicios(
