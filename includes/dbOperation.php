@@ -29,9 +29,9 @@ class DbOperation
 		return false;
 	}
 
-	function createAluno($nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer){
-		$stmt = $this->con->prepare("INSERT INTO tbAlunos (nome, senha, sexo, dataNasc, cell, email, ftAlun, cep, estado, cidade, bairro, rua, bairro, num, codPer) VALUES (?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssssssssssssi", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $bairro, $rua, $bairro, $num, $codPer);
+	function createAluno($nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer){
+		$stmt = $this->con->prepare("INSERT INTO tbAlunos (nome, senha, sexo, dataNasc, cell, email, ftAlun, codPer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssssssi", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer);
 		if($stmt->execute())
 			return true; 			
 		return false;
@@ -86,11 +86,12 @@ class DbOperation
 			
 			array_push($pers, $per); 
 		}
-
+		return $pers;
+	}
 	function getAluno(){
-		$stmt = $this->con->prepare("SELECT codAlun, nome, senha, sexo, dataNasc, cell, email, ftAlun, cep, estado, cidade, rua, bairro, num, codPer FROM tbAlunos");
+		$stmt = $this->con->prepare("SELECT codAlun, nome, senha, sexo, dataNasc, cell, email, ftAlun, codPer FROM tbAlunos");
 		$stmt->execute();
-		$stmt->bind_result($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer);
+		$stmt->bind_result($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer);
 		
 		$alunos = array(); 
 		
@@ -103,19 +104,14 @@ class DbOperation
 			$aluno['cell'] = $cell; 
 			$aluno['email'] = $email; 
 			$aluno['ftAlun'] = $ftAlun; 
-			$aluno['cep'] = $cep; 
-			$aluno['estado'] = $estado; 
-			$aluno['cidade'] = $cidade; 
-			$aluno['rua'] = $rua; 
-			$aluno['bairro'] = $bairro;
-			$aluno['num'] = $num; 
 			$aluno['codPer'] = $codPer; 
 			
 			array_push($alunos, $aluno); 
 		}
-
+		return $alunos;
+	}
 		function getLista(){
-		$stmt = $this->con->prepare("SELECT codLista, codPer, nomeLista, observacao, objetivo FROM tbListaTreino");
+		$stmt = $this->con->prepare("SELECT codLista, codPer, nomeLista, observacao, objetivo FROM tbListaTreinos");
 		$stmt->execute();
 		$stmt->bind_result($codLista, $codPer, $nomeLista, $observacao, $objetivo);
 		
@@ -131,7 +127,8 @@ class DbOperation
 			
 			array_push($listas, $lista); 
 		}
-
+		return $listas;
+	}
 		function getTreino(){
 		$stmt = $this->con->prepare("SELECT codTreino, codLista, nomeTreino, diaTreino FROM tbTreinos");
 		$stmt->execute();
@@ -148,7 +145,8 @@ class DbOperation
 			
 			array_push($treinos, $treino); 
 		}
-
+		return $treinos;
+	}
 		function getExercicio(){
 		$stmt = $this->con->prepare("SELECT codExe, nomeExe, descricao, video, ftExe, codCat FROM tbExercicios");
 		$stmt->execute();
@@ -167,13 +165,14 @@ class DbOperation
 			
 			array_push($exes, $exe); 
 		}
-
-		return $pers;
-		return $alunos;
-		return $listas;
-		return $treinos;
 		return $exes; 
 	}
+		
+		
+		
+		
+		
+	
 	
 	// Dados que vão ser atualizados no aplicativo 
 
@@ -185,10 +184,9 @@ class DbOperation
 		return false; 
 	}
 
-	function updateAluno($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer){
-		$stmt = $this->con->prepare("UPDATE tbAlunos SET nome = ?, senha = ?, sexo = ?, dataNasc = ?, cell = ?, email = ?, ftAlun = ?, cep = ?, estado = ?, cidade = ?, bairro = ?,
-		 rua = ?, bairro = ?, num = ?, codPer = ? WHERE codAlun = ?");
-		$stmt->bind_param("ssssssssssssssii", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $cep, $estado, $cidade, $rua, $bairro, $num, $codPer, $codAlun);
+	function updateAluno($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer){
+		$stmt = $this->con->prepare("UPDATE tbAlunos SET nome = ?, senha = ?, sexo = ?, dataNasc = ?, cell = ?, email = ?, ftAlun = ?, codPer = ? WHERE codAlun = ?");
+		$stmt->bind_param("sssssssii", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer, $codAlun);
 		if($stmt->execute())
 			return true; 
 		return false; 

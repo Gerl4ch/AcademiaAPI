@@ -40,7 +40,7 @@
 
                         case 'createAluno':
 
-                                isTheseParametersAvailable(array('nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'cep', 'estado', 'cidade', 'rua', 'bairro', 'num','codPer'));
+                                isTheseParametersAvailable(array('nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'codPer'));
 
                                 $db = new dbOperation();
 
@@ -52,12 +52,6 @@
                                         $_POST['cell'],
                                         $_POST['email'],
                                         $_POST['ftAluno'],
-                                        $_POST['cep'],
-                                        $_POST['estado'],
-                                        $_POST['cidade'],
-                                        $_POST['rua'],
-                                        $_POST['bairro'],
-                                        $_POST['num'],
                                         $_POST['codPer']);
 
 
@@ -204,8 +198,8 @@
                                 $result = $db->createExercicio(
                                         $_POST['nomeExe'],
                                         $_POST['descricao'],
-                                        $_POST['video']
-                                        $_POST['ftExe']
+                                        $_POST['video'],
+                                        $_POST['ftExe'],
                                         $_POST['codCat']);
                                         
                                         
@@ -276,7 +270,7 @@
                         // ATUALIZANDO DADOS
 
                         case 'updateAluno':
-                                isTheseParametersAvailable(array('codAlun','nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'cep', 'estado', 'cidade', 'rua', 'bairro', 'num','codPer'));
+                                isTheseParametersAvailable(array('codAlun','nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'codPer'));
                                 $db = new dbOperation();
                                 $result = $db->updateAluno(
 
@@ -288,12 +282,6 @@
                                         $_POST['cell'],
                                         $_POST['email'],
                                         $_POST['ftAluno'],
-                                        $_POST['cep'],
-                                        $_POST['estado'],
-                                        $_POST['cidade'],
-                                        $_POST['rua'],
-                                        $_POST['bairro'],
-                                        $_POST['num'],
                                         $_POST['codPer']);
 
                                 if($result){
