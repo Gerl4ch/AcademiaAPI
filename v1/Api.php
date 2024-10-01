@@ -40,13 +40,12 @@
 
                         case 'createAluno':
 
-                                isTheseParametersAvailable(array('nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'codPer'));
+                                isTheseParametersAvailable(array('nome', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'codPer'));
 
                                 $db = new dbOperation();
 
                                 $result = $db->createAluno(
                                         $_POST['nome'],
-                                        $_POST['senha'],
                                         $_POST['sexo'],
                                         $_POST['dataNasc'],
                                         $_POST['cell'],
@@ -79,7 +78,7 @@
 
                         case 'createPersonal':
 
-                                isTheseParametersAvailable(array('nome', 'cpf', 'sexo', 'ftPer', 'senha', 'cell', 'cref', 'email', 'dataNasc'));
+                                isTheseParametersAvailable(array('nome', 'cpf', 'sexo', 'ftPer', 'cell', 'cref', 'email', 'dataNasc'));
 
                                 $db = new dbOperation();
 
@@ -88,7 +87,6 @@
                                         $_POST['cpf'],
                                         $_POST['sexo'],
                                         $_POST['ftPer'],
-                                        $_POST['senha'],
                                         $_POST['cell'],
                                         $_POST['cref'],
                                         $_POST['email'],
@@ -270,13 +268,12 @@
                         // ATUALIZANDO DADOS
 
                         case 'updateAluno':
-                                isTheseParametersAvailable(array('codAlun','nome','senha', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'codPer'));
+                                isTheseParametersAvailable(array('codAlun','nome', 'sexo', 'dataNasc', 'cell', 'email', 'ftAluno', 'codPer'));
                                 $db = new dbOperation();
                                 $result = $db->updateAluno(
 
                                         $_POST['codAlun'],
                                         $_POST['nome'],
-                                        $_POST['senha'],
                                         $_POST['sexo'],
                                         $_POST['dataNasc'],
                                         $_POST['cell'],
@@ -296,7 +293,7 @@
 
 
                         case 'updatePersonal':
-                                isTheseParametersAvailable(array('nome', 'cpf', 'sexo', 'ftPer', 'senha', 'cell', 'cref', 'email', 'dataNasc'));
+                                isTheseParametersAvailable(array('nome', 'cpf', 'sexo', 'ftPer', 'cell', 'cref', 'email', 'dataNasc'));
                                 $db = new dbOperation();
                                 $result = $db->updatePersonal(
 
@@ -304,7 +301,6 @@
                                         $_POST['cpf'],
                                         $_POST['sexo'],
                                         $_POST['ftPer'],
-                                        $_POST['senha'],
                                         $_POST['cell'],
                                         $_POST['cref'],
                                         $_POST['email'],

@@ -8,7 +8,6 @@ nome varchar(50) not null,
 cpf char(14) not null unique,
 sexo char(1) default "M" check(sexo in('F','M')),
 ftPer varchar(200),
-senha varchar(50) not null,
 cell char(12) not null unique,
 cref varchar(15) not null unique,
 email varchar(50) not null,
@@ -18,7 +17,6 @@ primary key(codPer));
 create table tbAlunos(
 codAlun int not null auto_increment,
 nome varchar(50) not null,
-senha varchar(50) not null,
 sexo char(1) default "M" check(sexo in('F','M')),
 dataNasc date,
 cell char(10),
@@ -28,17 +26,11 @@ codPer int not null,
 primary key (codAlun),
 foreign key(codPer)references tbPersonal(codPer));
 
-create table tbUsuarios(
-codUsu int not null auto_increment,
-nome varchar(50) not null,
-cpf char(14) not null unique,
-email varchar(50) not null,
-primary key(codUsu));
-
 create table tbPersonal_Alunos(
+codPeAl int not null auto_increment,
 codPer int not null,
 codAlun int not null,
-primary key(codPer,codAlun),
+primary key(codPeAL),
 foreign key(codPer)references tbPersonal(codPer),
 foreign key(codAlun)references tbAlunos(codAlun));
 
@@ -46,7 +38,7 @@ create table tbCategoria(
 codCat int not null auto_increment,
 nome varchar(50) not null,
 descricao varchar(50),
-foto varchar(100),
+foto varchar(200),
 primary key(codCat));
 
 create table tbExercicios(
@@ -95,5 +87,5 @@ foreign key(codTreino)references tbTreinos(codTreino),
 foreign key(codExe)references tbExercicios(codExe));
 
 
-INSERT INTO tbPersonal (codPer, nome, cpf, sexo, ftPer, senha, cell, cref, email, dataNasc)
-VALUES (1, 'Leonardo', '000.000.000-01', 'M', '', 'leonardo123', '1190000-0000', '000000-S', 'leonardohg2005@gmail.com', '10/12/2000');
+INSERT INTO tbPersonal (codPer, nome, cpf, sexo, ftPer, cell, cref, email, dataNasc)
+VALUES (1, 'Leonardo', '000.000.000-01', 'M', '', '1190000-0000', '000000-S', 'leonardohg2005@gmail.com', '10/12/2000');

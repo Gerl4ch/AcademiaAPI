@@ -21,17 +21,17 @@ class DbOperation
 	// Criar novos dados
 	
 
-	function createPersonal($nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc){
-		$stmt = $this->con->prepare("INSERT INTO tbPersonal (nome, cpf, sexo, ftPer, senha, cell, cref, email, dataNasc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("sssssssss", $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc);
+	function createPersonal($nome, $cpf, $sexo, $ftPer, $cell, $cref, $email, $dataNasc){
+		$stmt = $this->con->prepare("INSERT INTO tbPersonal (nome, cpf, sexo, ftPer, cell, cref, email, dataNasc) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssssss", $nome, $cpf, $sexo, $ftPer, $cell, $cref, $email, $dataNasc);
 		if($stmt->execute())
 			return true; 			
 		return false;
 	}
 
-	function createAluno($nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer){
-		$stmt = $this->con->prepare("INSERT INTO tbAlunos (nome, senha, sexo, dataNasc, cell, email, ftAlun, codPer) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("sssssssi", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer);
+	function createAluno($nome, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer){
+		$stmt = $this->con->prepare("INSERT INTO tbAlunos (nome, sexo, dataNasc, cell, email, ftAlun, codPer) VALUES ( ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssssi", $nome, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer);
 		if($stmt->execute())
 			return true; 			
 		return false;
@@ -65,9 +65,9 @@ class DbOperation
 	// Busca e Lista 
 
 	function getPersonal(){
-		$stmt = $this->con->prepare("SELECT codPer, nome, cpf, sexo, ftPer, senha, cell, cref, email, dataNasc FROM tbPersonal");
+		$stmt = $this->con->prepare("SELECT codPer, nome, cpf, sexo, ftPer, cell, cref, email, dataNasc FROM tbPersonal");
 		$stmt->execute();
-		$stmt->bind_result($codPer, $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc);
+		$stmt->bind_result($codPer, $nome, $cpf, $sexo, $ftPer, $cell, $cref, $email, $dataNasc);
 		
 		$pers = array(); 
 		
@@ -77,8 +77,7 @@ class DbOperation
 			$per['nome'] = $nome; 
 			$per['cpf'] = $cpf; 
 			$per['sexo'] = $sexo; 
-			$per['ftPer'] = $ftPer; 
-			$per['senha'] = $senha; 
+			$per['ftPer'] = $ftPer;
 			$per['cell'] = $cell; 
 			$per['cref'] = $cref; 
 			$per['email'] = $email; 
@@ -89,9 +88,9 @@ class DbOperation
 		return $pers;
 	}
 	function getAluno(){
-		$stmt = $this->con->prepare("SELECT codAlun, nome, senha, sexo, dataNasc, cell, email, ftAlun, codPer FROM tbAlunos");
+		$stmt = $this->con->prepare("SELECT codAlun, nome, sexo, dataNasc, cell, email, ftAlun, codPer FROM tbAlunos");
 		$stmt->execute();
-		$stmt->bind_result($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer);
+		$stmt->bind_result($codAlun, $nome, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer);
 		
 		$alunos = array(); 
 		
@@ -99,7 +98,7 @@ class DbOperation
 			$aluno = array();
 			$aluno['codAlun'] = $codAlun; 
 			$aluno['nome'] = $nome; 
-			$aluno['senha'] = $senha; 
+			$aluno['sexo'] = $sexo; 
 			$aluno['dataNasc'] = $dataNasc; 
 			$aluno['cell'] = $cell; 
 			$aluno['email'] = $email; 
@@ -176,17 +175,17 @@ class DbOperation
 	
 	// Dados que vão ser atualizados no aplicativo 
 
-	function updatePersonal($codPer, $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc){
-		$stmt = $this->con->prepare("UPDATE tbPersonal SET nome = ?, cpf = ?, sexo = ?, ftPer = ?, senha = ?, cell = ?, cref = ?, email = ?, dataNasc = ? WHERE codPer = ?");
-		$stmt->bind_param("sssssssssi", $nome, $cpf, $sexo, $ftPer, $senha, $cell, $cref, $email, $dataNasc, $codPer);
+	function updatePersonal($codPer, $nome, $cpf, $sexo, $ftPer, $cell, $cref, $email, $dataNasc){
+		$stmt = $this->con->prepare("UPDATE tbPersonal SET nome = ?, cpf = ?, sexo = ?, ftPer = ?, cell = ?, cref = ?, email = ?, dataNasc = ? WHERE codPer = ?");
+		$stmt->bind_param("ssssssssi", $nome, $cpf, $sexo, $ftPer, $cell, $cref, $email, $dataNasc, $codPer);
 		if($stmt->execute())
 			return true; 
 		return false; 
 	}
 
-	function updateAluno($codAlun, $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer){
-		$stmt = $this->con->prepare("UPDATE tbAlunos SET nome = ?, senha = ?, sexo = ?, dataNasc = ?, cell = ?, email = ?, ftAlun = ?, codPer = ? WHERE codAlun = ?");
-		$stmt->bind_param("sssssssii", $nome, $senha, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer, $codAlun);
+	function updateAluno($codAlun, $nome, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer){
+		$stmt = $this->con->prepare("UPDATE tbAlunos SET nome = ?, sexo = ?, dataNasc = ?, cell = ?, email = ?, ftAlun = ?, codPer = ? WHERE codAlun = ?");
+		$stmt->bind_param("ssssssii", $nome, $sexo, $dataNasc, $cell, $email, $ftAlun, $codPer, $codAlun);
 		if($stmt->execute())
 			return true; 
 		return false; 
