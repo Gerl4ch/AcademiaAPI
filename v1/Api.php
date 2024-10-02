@@ -187,18 +187,19 @@
 
                         break;
 
-                        case 'createExercicio':
+                        case 'createExercicio_Personal':
 
-                                isTheseParametersAvailable(array('nomeExe', 'descricao', 'video', 'ftExe', 'codCat'));
+                                isTheseParametersAvailable(array('nomeExePer', 'descricao', 'video', 'ftExe', 'codCat', 'codPer'));
 
                                 $db = new dbOperation();
 
                                 $result = $db->createExercicio(
-                                        $_POST['nomeExe'],
+                                        $_POST['nomeExePer'],
                                         $_POST['descricao'],
                                         $_POST['video'],
                                         $_POST['ftExe'],
-                                        $_POST['codCat']);
+                                        $_POST['codCat'];
+                                        $_POST['codPer']);
                                         
                                         
 
