@@ -53,9 +53,9 @@ class DbOperation
 		return false;
 	}
 
-	function createExercicio($nomeExe, $descricao, $video, $ftExe, $codCat){
-		$stmt = $this->con->prepare("INSERT INTO tbExercicios (nomeExe, descricao, video, ftExe, codCat) VALUES (?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssi", $nomeExe, $descricao, $video, $ftExe, $codCat);
+	function createExercicio_Personal($nomeExePer, $descricao, $video, $ftExe, $codCat, $codPer){
+		$stmt = $this->con->prepare("INSERT INTO tbExercicios_Personal (nomeExePer, descricao, video, ftExe, codCat, codPer) VALUES (?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssii", $nomeExePer, $descricao, $video, $ftExe, $codCat, $codPer);
 		if($stmt->execute())
 			return true; 			
 		return false;
@@ -146,21 +146,22 @@ class DbOperation
 		}
 		return $treinos;
 	}
-		function getExercicio(){
-		$stmt = $this->con->prepare("SELECT codExe, nomeExe, descricao, video, ftExe, codCat FROM tbExercicios");
+		function getExercicio_Personal(){
+		$stmt = $this->con->prepare("SELECT codExePer, nomeExePer, descricao, video, ftExe, codCat, codPer FROM tbExercicios_Personal");
 		$stmt->execute();
-		$stmt->bind_result($codExe, $nomeExe, $descricao, $video, $ftExe, $codCat);
+		$stmt->bind_result($codExePer, $nomeExePer, $descricao, $video, $ftExe, $codCat, $codPer);
 		
 		$exes = array(); 
 		
 		while($stmt->fetch()){
 			$exe  = array();
-			$exe['codExe'] = $codExe; 
-			$exe['nomeExe'] = $nomeExe; 
+			$exe['codExePer'] = $codExePer; 
+			$exe['nomeExePer'] = $nomeExePer; 
 			$exe['descricao'] = $descricao; 
 			$exe['video'] = $video; 
 			$exe['ftExe'] = $ftExe;
-			$exe['codCat'] = $codCat; 
+			$exe['codCat'] = $codCat;
+			$exe['codPer'] = $codPer;  
 			
 			array_push($exes, $exe); 
 		}
@@ -207,9 +208,9 @@ class DbOperation
 		return false; 
 	}
 
-	function updateExercicio($codExe, $nomeExe, $descricao, $video, $ftExe, $codCat){
-		$stmt = $this->con->prepare("UPDATE tbExercicios SET nomeExe = ?, descricao = ?, video = ?, ftExe = ?, codCat = ? WHERE codExe = ?");
-		$stmt->bind_param("ssssii", $nomeExe, $descricao, $video, $ftExe, $codCat, $codExe);
+	function updateExercicio_Personal($codExePer, $nomeExePer, $descricao, $video, $ftExe, $codCat, $codPer){
+		$stmt = $this->con->prepare("UPDATE tbExercicios_Personal SET nomeExePer = ?, descricao = ?, video = ?, ftExe = ?, codCat = ?, codPer = ? WHERE codExePer = ?");
+		$stmt->bind_param("ssssiii", $nomeExePer, $descricao, $video, $ftExe, $codCat, $codPer, $codExePer);
 		if($stmt->execute())
 			return true; 
 		return false; 
@@ -233,9 +234,9 @@ class DbOperation
 		return false; 
 	}
 
-	function deleteExercicio($codExe){
-		$stmt = $this->con->prepare("DELETE FROM tbExercicio WHERE codExe = ? ");
-		$stmt->bind_param("i", $codExe);
+	function deleteExercicio($codExePer){
+		$stmt = $this->con->prepare("DELETE FROM tbExercicio_Personal WHERE codExePer = ? ");
+		$stmt->bind_param("i", $codExePer);
 		if($stmt->execute())
 			return true; 
 		return false; 

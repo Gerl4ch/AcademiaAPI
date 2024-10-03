@@ -59,8 +59,8 @@ video varchar(200),
 ftExe varchar(200),
 codPer int not null,
 codCat int not null,
-primary key(codExe),
-foreign key(codPer)references tbPersonal(codPer)
+primary key(codExePer),
+foreign key(codPer)references tbPersonal(codPer),
 foreign key(codCat)references tbCategoria(codCat));
 
 create table tbPersonalizarExe(

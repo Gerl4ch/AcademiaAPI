@@ -193,12 +193,12 @@
 
                                 $db = new dbOperation();
 
-                                $result = $db->createExercicio(
+                                $result = $db->createExercicio_Personal(
                                         $_POST['nomeExePer'],
                                         $_POST['descricao'],
                                         $_POST['video'],
                                         $_POST['ftExe'],
-                                        $_POST['codCat'];
+                                        $_POST['codCat'],
                                         $_POST['codPer']);
                                         
                                         
@@ -213,7 +213,7 @@
                                         $response['message'] = 'Cadastro feito com sucesso';
 
 
-                                        $response['exercicio'] = $db->getExercicio();
+                                        $response['exercicio'] = $db->getExercicio_Personal();
                                 }else{
 
 
@@ -258,11 +258,11 @@
                                 $response['treino'] = $db->getTreino();
                         break;
 
-                        case 'getExercicio':
+                        case 'getExercicio_Personal':
                                 $db = new dbOperation();
                                 $response['error'] = false; 
                                 $response['message'] = 'Mostrando com sucesso';
-                                $response['exercicio'] = $db->getExercicio();
+                                $response['exercicio'] = $db->getExercicio_Personal();
                         break;
 
 
@@ -359,12 +359,12 @@
                         break;
 
 
-                        case 'updateExercicio':
-                                isTheseParametersAvailable(array('nomeExe', 'descricao', 'video', 'ftExe', 'codCat'));
+                        case 'updateExercicio_Personal':
+                                isTheseParametersAvailable(array('nomeExePer', 'descricao', 'video', 'ftExe', 'codCat', ));
                                 $db = new dbOperation();
                                 $result = $db->updateExercicio(
 
-                                        $_POST['nomeExe'],
+                                        $_POST['nomeExePer'],
                                         $_POST['descricao'],
                                         $_POST['video'],
                                         $_POST['ftExe'],
@@ -373,7 +373,7 @@
                                 if($result){
                                         $response['error'] = false; 
                                         $response['message'] = 'Exercício atualizado com sucesso';
-                                        $response['exercicio'] = $db->getExercicio();
+                                        $response['exercicio'] = $db->getExercicio_Personal();
                                 }else{
                                         $response['error'] = true; 
                                         $response['message'] = 'Algum erro ocorreu por favor tente novamente';
@@ -423,15 +423,15 @@
                         break;
 
 
-                        case 'deleteExercicio':
+                        case 'deleteExercicio_Personal':
 
 
-                                if(isset($_GET['codExe'])){
+                                if(isset($_GET['codExePer'])){
                                         $db = new dbOperation();
-                                        if($db->deleteExercicio($_GET['codExe'])){
+                                        if($db->deleteExercicio_Personal($_GET['codExePer'])){
                                                 $response['error'] = false; 
                                                 $response['message'] = 'Exercício excluído com sucesso';
-                                                $response['Exercicio'] = $db->getExercicio();
+                                                $response['Exercicio'] = $db->getExercicio_Personal();
                                         }else{
                                                 $response['error'] = true; 
                                                 $response['message'] = 'Algum erro ocorreu por favor tente novamente';
