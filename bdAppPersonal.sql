@@ -65,12 +65,14 @@ foreign key(codCat)references tbCategoria(codCat));
 
 create table tbPersonalizarExe(
 codPexe int not null auto_increment,
-numSer varchar(3) not null default "4",
+numSer varchar(3) not null,
 tempDesc time not null,
 numReps varchar(3),
 numKg varchar(3),
-codExe int not null,
+codExePer int null,
+codExe int null,
 primary key(codPexe),
+foreign key(codExePer)references tbExercicios_Personal(codExePer),
 foreign key(codExe)references tbExercicios(codExe));
 
 create table tbListaTreinos(
@@ -93,17 +95,25 @@ foreign key(codLista)references tbListaTreinos(codLista));
 create table tbTreino_Exercicio(
 codId int not null auto_increment,
 codTreino int not null,
-codExe int not null,
+codExePer int null,
+codExe int null,
 primary key(codId),
 foreign key(codTreino)references tbTreinos(codTreino),
+foreign key(codExePer)references tbExercicios_Personal(codExePer),
 foreign key(codExe)references tbExercicios(codExe));
 
 
 INSERT INTO tbPersonal (codPer, nome, cpf, sexo, ftPer, cell, cref, email, dataNasc)
-VALUES (1, 'Leonardo', '000.000.000-01', 'M', '', '1190000-0000', '000000-S', 'leonardohg2005@gmail.com', '10/12/2000');
+VALUES (1, 'Leonardo', '000.000.000-01', 'M', '', '1190000-0000', '000000-S', 'leonardohg2005@gmail.com', '2000/12/10');
+
+INSERT INTO tbAlunos (codAlun, nome, sexo, dataNasc, cell, email, ftAlun, codPer)
+VALUES(1, 'Matheus', 'M', '1998/10/06', '1194034-3290', 'matheus1998@gmail.com', '', 1);
+
+INSERT INTO tbCategoria (codCat, nome, descricao, foto)
+VALUES(1, "Biceps", "Categoria de treino para biceps", "");
 
 INSERT INTO tbExercicios (codExe, nomeExe, descricao, video, ftExe, codCat)
-VALUES (1, 'Rosca direta', 'Treino de biceps (rosca direta)', 'https://www.youtube.com/watch?v=FHyZEuRpSg4', 'C:\xampp\htdocs\AcademiaAPI\Image\Imagens\', 1)
+VALUES (1, 'Rosca direta', 'Treino de biceps (rosca direta)', 'https://www.youtube.com/watch?v=FHyZEuRpSg4', '', 1);
 
 INSERT INTO tbListaTreinos (codLista, codPer, nomeLista, observacao, objetivo)
 VALUES (1, 1, 'Treino ABC', 'Treino iniciante', 'Hipertrofia');
@@ -111,5 +121,11 @@ VALUES (1, 1, 'Treino ABC', 'Treino iniciante', 'Hipertrofia');
 INSERT INTO tbTreinos (codTreino, codLista, nomeTreino, diaTreino)
 VALUES (1, 1, 'Peito e biceps', 'segunda');
 
-INSERT INTO tbTreinos (codId, codTreino, codExe,)
-VALUES (1, 1, 1)
+INSERT INTO tbTreino_Exercicio (codId, codTreino, codExePer, codExe)
+VALUES (1, 1, null, 1);
+
+INSERT INTO tbExercicios_Personal (codExePer, nomeExePer, descricao, video, ftExe, codCat, codPer)
+VALUES (1, 'Rosca direta', 'Treino de biceps (rosca direta)', 'https://www.youtube.com/watch?v=FHyZEuRpSg4', '', 1, 1);
+
+INSERT INTO tbPersonalizarExe (codPexe, numSer, tempDesc, numReps, numKg, codExePer, codExe)
+VALUES (1, 1, '00:01:30', 10, 12, null, 1);
