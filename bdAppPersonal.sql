@@ -46,7 +46,7 @@ codExe int not null auto_increment,
 nomeExe varchar(50) not null,
 descricao varchar(100) not null,
 video varchar(200),
-ftExe varchar(200),
+ftExe blob, 
 codCat int not null,
 primary key(codExe),
 foreign key(codCat)references tbCategoria(codCat));
