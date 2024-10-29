@@ -1,5 +1,5 @@
 <?php 
-
+// API ATUALIZADA DIA 28.10
         require_once '../includes/dbOperation.php';
 
         function isTheseParametersAvailable($params){
