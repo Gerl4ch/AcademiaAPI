@@ -46,7 +46,7 @@ codExe int not null auto_increment,
 nomeExe varchar(50) not null,
 descricao varchar(100) not null,
 video varchar(200),
-ftExe blob, 
+ftExe varchar(200), 
 codCat int not null,
 primary key(codExe),
 foreign key(codCat)references tbCategoria(codCat));
@@ -129,3 +129,4 @@ VALUES (1, 'Rosca direta', 'Treino de biceps (rosca direta)', 'https://www.youtu
 
 INSERT INTO tbPersonalizarExe (codPexe, numSer, tempDesc, numReps, numKg, codExePer, codExe)
 VALUES (1, 1, '00:01:30', 10, 12, null, 1);
+
