@@ -173,7 +173,8 @@ class DbOperation
 			
 			array_push($exes, $exe); 
 		}
-		return $exes; 
+		return $exes;
+	}
 
 		function getExercicio_Personalizado(){
 			$stmt = $this->con->prepare("SELECT codPexe, numSer, tempDesc, numReps, numKg, codExePer, codExe FROM tbPersonalizarExe");

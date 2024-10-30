@@ -413,7 +413,7 @@
                                         $_POST['descricao'],
                                         $_POST['video'],
                                         $_POST['ftExe'],
-                                        $_POST['codCat']
+                                        $_POST['codCat'],
                                         $_POST['codPer']);
 
                                 if($result){
