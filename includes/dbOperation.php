@@ -61,6 +61,14 @@ class DbOperation
 		return false;
 	}
 
+	function createExercicio_Personalizado($numSer, $tempDesc, $numReps, $numKg, $codExePer, $codExe){
+		$stmt = $this->con->prepare("INSERT INTO tbPersonalizarExe (numSer, tempDesc, numReps, numKg, codExePer, codExe) VALUES (?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssii", $numSer, $tempDesc, $numReps, $numKg, $codExePer, $codExe);
+		if($stmt->execute())
+			return true; 			
+		return false;
+	}
+
 
 	// Busca e Lista 
 
@@ -165,7 +173,29 @@ class DbOperation
 			
 			array_push($exes, $exe); 
 		}
-		return $exes; 
+		return $exes;
+	}
+
+		function getExercicio_Personalizado(){
+			$stmt = $this->con->prepare("SELECT codPexe, numSer, tempDesc, numReps, numKg, codExePer, codExe FROM tbPersonalizarExe");
+			$stmt->execute();
+			$stmt->bind_result($codPexe, $numSer, $tempDesc, $numReps, $numKg, $codExePer, $codExe);
+			
+			$exesPer = array(); 
+			
+			while($stmt->fetch()){
+				$exePer  = array();
+				$exePer['codPexe'] = $codPexe; 
+				$exePer['numSer'] = $numSer; 
+				$exePer['tempDesc'] = $tempDesc; 
+				$exePer['numReps'] = $numReps; 
+				$exePer['numKg'] = $numKg;
+				$exePer['codExePer'] = $codExePer;
+				$exePer['codExe'] = $codExe;  
+				
+				array_push($exesPer, $exePer); 
+			}
+			return $exesPer; 
 	}
 		
 		
@@ -215,6 +245,14 @@ class DbOperation
 			return true; 
 		return false; 
 	}
+
+	function updateExercicio_Personalizado($codPexe, $numSer, $tempDesc, $numReps, $numKg, $codExePer, $codExe){
+		$stmt = $this->con->prepare("UPDATE tbPersonaliarExe SET numSer = ?, tempDesc = ?, numReps = ?, numKg = ?, codExePer = ?, codExe = ? WHERE codPexe = ?");
+		$stmt->bind_param("ssssiii", $numSer, $tempDesc, $numReps, $numKg, $codExePer, $codExe, $codPexe);
+		if($stmt->execute())
+			return true; 
+		return false; 
+	}
 	
 	// Dados que poderão ser deletados
 
@@ -234,9 +272,17 @@ class DbOperation
 		return false; 
 	}
 
-	function deleteExercicio($codExePer){
+	function deleteExercicio_Personal($codExePer){
 		$stmt = $this->con->prepare("DELETE FROM tbExercicio_Personal WHERE codExePer = ? ");
 		$stmt->bind_param("i", $codExePer);
+		if($stmt->execute())
+			return true; 
+		return false; 
+	}
+
+	function deleteExercicio_Personalizado($codPexe){
+		$stmt = $this->con->prepare("DELETE FROM tbPersonalizarExe WHERE codPexe = ? ");
+		$stmt->bind_param("i", $codPexe);
 		if($stmt->execute())
 			return true; 
 		return false; 

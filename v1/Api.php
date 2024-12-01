@@ -1,5 +1,5 @@
 <?php 
-
+// API ATUALIZADA DIA 28.10
         require_once '../includes/dbOperation.php';
 
         function isTheseParametersAvailable($params){
@@ -225,6 +225,44 @@
 
                         break;
 
+                        case 'createExercicio_Personalizado':
+
+                                isTheseParametersAvailable(array('numSer', 'tempDesc', 'numReps', 'numKg', 'codExePer', 'codExe'));
+
+                                $db = new dbOperation();
+
+                                $result = $db->createExercicio_Personalizado(
+                                        $_POST['numSer'],
+                                        $_POST['tempDesc'],
+                                        $_POST['numReps'],
+                                        $_POST['numKg'],
+                                        $_POST['codExePer'],
+                                        $_POST['codExe']);
+                                        
+                                        
+
+
+
+                                if($result){
+
+                                        $response['error'] = false; 
+
+
+                                        $response['message'] = 'Cadastro feito com sucesso';
+
+
+                                        $response['exercicio'] = $db->getExercicio_Personalizado();
+                                }else{
+
+
+                                        $response['error'] = true; 
+
+
+                                        $response['message'] = 'Algum erro ocorreu por favor tente novamente';
+                                }
+
+                        break;
+
 
                         // MOSTRANDO DADOS
 
@@ -263,6 +301,13 @@
                                 $response['error'] = false; 
                                 $response['message'] = 'Mostrando com sucesso';
                                 $response['exercicio'] = $db->getExercicio_Personal();
+                        break;
+
+                        case 'getExercicio_Personalizado':
+                                $db = new dbOperation();
+                                $response['error'] = false; 
+                                $response['message'] = 'Mostrando com sucesso';
+                                $response['exercicio'] = $db->getExercicio_Personalizado();
                         break;
 
 
@@ -360,20 +405,43 @@
 
 
                         case 'updateExercicio_Personal':
-                                isTheseParametersAvailable(array('nomeExePer', 'descricao', 'video', 'ftExe', 'codCat', ));
+                                isTheseParametersAvailable(array('nomeExePer', 'descricao', 'video', 'ftExe', 'codCat', 'codPer'));
                                 $db = new dbOperation();
-                                $result = $db->updateExercicio(
+                                $result = $db->updateExercicio_Personal(
 
                                         $_POST['nomeExePer'],
                                         $_POST['descricao'],
                                         $_POST['video'],
                                         $_POST['ftExe'],
-                                        $_POST['codCat']);
+                                        $_POST['codCat'],
+                                        $_POST['codPer']);
 
                                 if($result){
                                         $response['error'] = false; 
                                         $response['message'] = 'Exercício atualizado com sucesso';
                                         $response['exercicio'] = $db->getExercicio_Personal();
+                                }else{
+                                        $response['error'] = true; 
+                                        $response['message'] = 'Algum erro ocorreu por favor tente novamente';
+                                }
+                        break;
+
+                        case 'updateExercicio_Personalizado':
+                                isTheseParametersAvailable(array('numSer', 'tempDesc', 'numReps', 'numKg', 'codExePer', 'codExe'));
+                                $db = new dbOperation();
+                                $result = $db->updateExercicio_Personalizado(
+
+                                        $_POST['numSer'],
+                                        $_POST['tempDesc'],
+                                        $_POST['numReps'],
+                                        $_POST['numKg'],
+                                        $_POST['codExePer'],
+                                        $_POST['codExe']);
+
+                                if($result){
+                                        $response['error'] = false; 
+                                        $response['message'] = 'Exercício Personalizado atualizado com sucesso';
+                                        $response['exercicio'] = $db->getExercicio_Personalizado();
                                 }else{
                                         $response['error'] = true; 
                                         $response['message'] = 'Algum erro ocorreu por favor tente novamente';
@@ -432,6 +500,25 @@
                                                 $response['error'] = false; 
                                                 $response['message'] = 'Exercício excluído com sucesso';
                                                 $response['Exercicio'] = $db->getExercicio_Personal();
+                                        }else{
+                                                $response['error'] = true; 
+                                                $response['message'] = 'Algum erro ocorreu por favor tente novamente';
+                                        }
+                                }else{
+                                        $response['error'] = true; 
+                                        $response['message'] = 'Não foi possível deletar, forneça um id por favor';
+                                }
+                        break;
+
+                        case 'deleteExercicio_Personalizado':
+
+
+                                if(isset($_GET['codPexe'])){
+                                        $db = new dbOperation();
+                                        if($db->deleteExercicio_Personalizado($_GET['codPexe'])){
+                                                $response['error'] = false; 
+                                                $response['message'] = 'Exercício Personalizado excluído com sucesso';
+                                                $response['Exercicio'] = $db->getExercicio_Personalizado();
                                         }else{
                                                 $response['error'] = true; 
                                                 $response['message'] = 'Algum erro ocorreu por favor tente novamente';
